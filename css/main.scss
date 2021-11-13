@@ -18,7 +18,7 @@
 //CONTAINER
 .container {
   max-width: 700px;
-  margin: 3rem auto;
+  margin: 2rem auto 1rem;
 }
 
 //SECTION LIST HEADER
@@ -110,7 +110,7 @@
       border-bottom: 1px solid #1c2340;
       border-radius: $border16;
 
-      animation: expandLi 300ms ease-in-out;
+      animation: expandLi 500ms ease-in-out;
 
       transition: all 500ms ease-in-out;
 
@@ -151,10 +151,14 @@
         text-decoration: double line-through;
         color: $secondary-white-color;
       }
+
+      .btn-remove {
+        opacity: 1;
+      }
     }
 
     .removed {
-      animation: collapseLi 300ms ease-in-out;
+      animation: collapseLi 500ms ease-in-out;
     }
 
     .hidden {

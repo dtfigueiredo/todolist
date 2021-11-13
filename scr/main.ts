@@ -1,8 +1,12 @@
 const MAIN = {
+  tasksList: [],
+
   //função que irá executar todas os outros métodos do objeto
   init: function () {
     this.domSelectors();
     this.bindEvents();
+    this.getLocalStorage();
+    this.buildTaskList();
   },
 
   //função que é responsável por buscar os elementos na DOM
@@ -27,6 +31,33 @@ const MAIN = {
     this.$removeButtons.forEach(function (button) {
       button.addEventListener("click", self.Events.removeTaskClick);
     });
+  },
+
+  //função responsável por buscar os valores salvos no LocalStorage, a partir do "inputTaskEnter" linha 54
+  getLocalStorage: function () {
+    const tasksStoraged = localStorage.getItem("tasks");
+
+    this.tasksList = JSON.parse(tasksStoraged);
+  },
+
+  //função responsável por criar a lista de tarefas a partir dos dados inseridos no array 'tasksList' (linha 02),que foi gerado através do "getLocalStorage" linha38
+  buildTaskList: function () {
+    let html = "";
+
+    this.tasksList.forEach((listItem) => {
+      html += `
+        <li>
+          <div class="check"></div>
+          <label for="" class="task">${listItem.taskName}</label>
+          <button class="btn-remove"><i class="fas fa-trash-alt"></i></button>
+        </li>
+       `;
+    });
+
+    this.$list.innerHTML = html;
+
+    this.domSelectors();
+    this.bindEvents();
   },
 
   //seção responsável por armazenar todas as funções de eventos isolados
@@ -59,6 +90,12 @@ const MAIN = {
 
         this.domSelectors();
         this.bindEvents();
+
+        // const SAVEDTASKS = localStorage.getItem("tasks");
+        // const SAVEDTASKSOBJ = JSON.parse(SAVEDTASKS);
+
+        const TASKOBJ = [{ taskName: task }];
+        localStorage.setItem("tasks", JSON.stringify(TASKOBJ));
       }
 
       if (!task.length && key === "Enter") {
@@ -74,7 +111,7 @@ const MAIN = {
 
       setTimeout(() => {
         li.classList.add("hidden");
-      }, 300);
+      }, 500);
     },
   },
 };
