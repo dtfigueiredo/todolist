@@ -71,9 +71,9 @@ const MAIN = {
                 input.value = "";
                 this.domSelectors();
                 this.bindEvents();
-                // const SAVEDTASKS = localStorage.getItem("tasks");
-                // const SAVEDTASKSOBJ = JSON.parse(SAVEDTASKS);
-                const TASKOBJ = [{ taskName: task }];
+                const SAVEDTASKS = localStorage.getItem("tasks");
+                const SAVEDTASKSOBJ = JSON.parse(SAVEDTASKS);
+                const TASKOBJ = [{ taskName: task }, ...SAVEDTASKSOBJ];
                 localStorage.setItem("tasks", JSON.stringify(TASKOBJ));
             }
             if (!task.length && key === "Enter") {

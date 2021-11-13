@@ -91,10 +91,10 @@ const MAIN = {
         this.domSelectors();
         this.bindEvents();
 
-        // const SAVEDTASKS = localStorage.getItem("tasks");
-        // const SAVEDTASKSOBJ = JSON.parse(SAVEDTASKS);
+        const SAVEDTASKS = localStorage.getItem("tasks");
+        const SAVEDTASKSOBJ = JSON.parse(SAVEDTASKS);
 
-        const TASKOBJ = [{ taskName: task }];
+        const TASKOBJ = [{ taskName: task }, ...SAVEDTASKSOBJ];
         localStorage.setItem("tasks", JSON.stringify(TASKOBJ));
       }
 
