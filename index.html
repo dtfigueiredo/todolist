@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>TO DO LIST</title>
+
+   <link rel="stylesheet" href="./css/reset.css">
+   <link rel="stylesheet" href="./css/main.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+   <script src="https://kit.fontawesome.com/cd6e8bae44.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+   <header id="header" class="header">
+      <h1>Lista de Tarefas</h1>
+   </header>
+
+   <main id="todolist" class="container">
+
+      <section class="wrapper-list">
+         <header class="input-box">
+            <label for="inputTask">Qual a próxima tarefa:</label>
+            <input type="text" id="inputTask" placeholder="Após digitar, aperte 'ENTER'">
+            <p id="error" class="error"></p>
+         </header>
+
+         <ul id="list" class="list"> </ul>
+      </section>
+
+   </main>
+
+   <script src="./js/main.js"></script>
+</body>
+
+</html>
