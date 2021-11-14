@@ -8,6 +8,7 @@
     "url": "https://github.com/dtfigueiredo/todolist"
   },
   "scripts": {
+    "start": "tsc && node scr/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
