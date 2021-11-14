@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    // "outDir": "js",
-    "watch": true
+    "lib": ["dom", "dom.iterable", "esnext"]
   }
 }
-//  linhas do package.json script
-// "tsc-watch": "tsc",
-// "build": "tsc"
