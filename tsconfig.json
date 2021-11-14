@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "outDir": "js",
+    "target": "ES5",
+    // "outDir": "js",
     "watch": true
   }
 }
