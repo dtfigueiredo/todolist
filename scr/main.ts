@@ -13,7 +13,6 @@ const MAIN = {
   domSelectors: function () {
     this.$checkButtons = document.querySelectorAll(".check"); //(cria-se um array de tags)
     this.$inputTask = document.querySelector("#inputTask");
-    this.$spanError = document.querySelector("#error");
     this.$list = document.querySelector("#list");
     this.$removeButtons = document.querySelectorAll(".btn-remove"); //(cria-se um array de tags)
   },
@@ -36,14 +35,14 @@ const MAIN = {
     });
   },
 
-  //função responsável por buscar os valores salvos no LocalStorage, a partir do "inputTaskEnter" linha 54
+  //função responsável por buscar os valores salvos no LocalStorage, a partir do "inputTaskEnter" linha 75
   getLocalStorage: function () {
     const TASKSSTORAGED = localStorage.getItem("tasks");
 
     this.tasksList = JSON.parse(TASKSSTORAGED);
   },
 
-  //função responsável por criar a lista de tarefas a partir dos dados inseridos no array 'tasksList' (linha 02),que foi gerado através do "getLocalStorage" linha38
+  //função responsável por criar a lista de tarefas a partir dos dados inseridos no array 'tasksList' (linha 02),que foi gerado através do "getLocalStorage" linha 39
   buildTaskList: function () {
     let html = "";
 

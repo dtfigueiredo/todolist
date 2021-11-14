@@ -2,8 +2,12 @@
 
 ## DESCRIPTION
 
-## USAGE
+## SCRITPS
+
+- npm run tsc-watch -> auto translate ts into js
 
 ### TECHNOLOGIES
 
-#### LINK: https://simplest-to-do-list.netlify.app/
+#### LINK
+
+<https://simplest-to-do-list.netlify.app>
