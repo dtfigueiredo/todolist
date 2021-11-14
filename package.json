@@ -8,9 +8,7 @@
     "url": "https://github.com/dtfigueiredo/todolist"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc-watch": "tsc",
-    "build": "tsc"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
     "name": "Daniel FIgueiredo",

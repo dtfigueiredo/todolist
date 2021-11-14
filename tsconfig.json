@@ -5,3 +5,6 @@
     "watch": true
   }
 }
+//  linhas do package.json script
+// "tsc-watch": "tsc",
+// "build": "tsc"
