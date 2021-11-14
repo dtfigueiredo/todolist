@@ -32,7 +32,7 @@ const MAIN = {
     );
 
     this.$removeButtons.forEach(function (button) {
-      button.addEventListener("click", SELF.Events.removeTaskClick);
+      button.addEventListener("click", SELF.Events.removeTaskClick.bind(SELF));
     });
   },
 
@@ -52,7 +52,7 @@ const MAIN = {
         <li>
           <div class="check"></div>
           <label for="" class="task">${listItem.taskName}</label>
-          <button class="btn-remove"><i class="fas fa-trash-alt"></i></button>
+          <button class="btn-remove" data-task="${listItem.taskName}"><i class="fas fa-trash-alt"></i></button>
         </li>
        `;
     });
@@ -85,7 +85,7 @@ const MAIN = {
             <li>
               <div class="check"></div>
               <label for="" class="task">${task}</label>
-              <button class="btn-remove"><i class="fas fa-trash-alt"></i></button>
+              <button class="btn-remove" data-task="${task}"><i class="fas fa-trash-alt"></i></button>
             </li>
          `;
 
@@ -108,8 +108,15 @@ const MAIN = {
 
     removeTaskClick: function (e) {
       const LI = e.target.parentElement.parentElement;
+      const TASKTOBEREMOVED = e.target.parentElement.dataset['task'];
+      
+      console.log(TASKTOBEREMOVED);
 
-      console.log(LI);
+      const NEWTASKSLIST = this.tasksList.filter(item => item.taskName !== TASKTOBEREMOVED)
+      
+      console.log(NEWTASKSLIST)
+
+      localStorage.setItem("tasks", JSON.stringify(NEWTASKSLIST));
 
       LI.classList.add("removed");
 

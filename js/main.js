@@ -23,7 +23,7 @@ const MAIN = {
         });
         this.$inputTask.addEventListener("keypress", SELF.Events.inputTaskEnter.bind(this));
         this.$removeButtons.forEach(function (button) {
-            button.addEventListener("click", SELF.Events.removeTaskClick);
+            button.addEventListener("click", SELF.Events.removeTaskClick.bind(SELF));
         });
     },
     //função responsável por buscar os valores salvos no LocalStorage, a partir do "inputTaskEnter" linha 54
@@ -39,7 +39,7 @@ const MAIN = {
         <li>
           <div class="check"></div>
           <label for="" class="task">${listItem.taskName}</label>
-          <button class="btn-remove"><i class="fas fa-trash-alt"></i></button>
+          <button class="btn-remove" data-task="${listItem.taskName}"><i class="fas fa-trash-alt"></i></button>
         </li>
        `;
         });
@@ -65,7 +65,7 @@ const MAIN = {
             <li>
               <div class="check"></div>
               <label for="" class="task">${task}</label>
-              <button class="btn-remove"><i class="fas fa-trash-alt"></i></button>
+              <button class="btn-remove" data-task="${task}"><i class="fas fa-trash-alt"></i></button>
             </li>
          `;
                 input.value = "";
@@ -82,7 +82,11 @@ const MAIN = {
         },
         removeTaskClick: function (e) {
             const LI = e.target.parentElement.parentElement;
-            console.log(LI);
+            const TASKTOBEREMOVED = e.target.parentElement.dataset['task'];
+            console.log(TASKTOBEREMOVED);
+            const NEWTASKSLIST = this.tasksList.filter(item => item.taskName !== TASKTOBEREMOVED);
+            console.log(NEWTASKSLIST);
+            localStorage.setItem("tasks", JSON.stringify(NEWTASKSLIST));
             LI.classList.add("removed");
             setTimeout(() => {
                 LI.classList.add("hidden");
