@@ -60,7 +60,6 @@ const MAIN = {
             let input = e.target;
             let task = input.value;
             if (KEY === "Enter" && task.length > 0) {
-                this.$spanError.innerText = "";
                 this.$list.innerHTML += `
             <li>
               <div class="check"></div>
@@ -76,16 +75,11 @@ const MAIN = {
                 const TASKOBJ = [{ taskName: task }, ...SAVEDTASKSOBJ];
                 localStorage.setItem("tasks", JSON.stringify(TASKOBJ));
             }
-            if (!task.length && KEY === "Enter") {
-                this.$spanError.innerHTML = `<i class="fas fa-exclamation-circle"></i> Preencha a próxima tarefa corretamente.`;
-            }
         },
         removeTaskClick: function (e) {
             const LI = e.target.parentElement.parentElement;
-            const TASKTOBEREMOVED = e.target.parentElement.dataset['task'];
-            console.log(TASKTOBEREMOVED);
-            const NEWTASKSLIST = this.tasksList.filter(item => item.taskName !== TASKTOBEREMOVED);
-            console.log(NEWTASKSLIST);
+            const TASKTOBEREMOVED = e.target.parentElement.dataset["task"];
+            const NEWTASKSLIST = this.tasksList.filter((item) => item.taskName !== TASKTOBEREMOVED);
             localStorage.setItem("tasks", JSON.stringify(NEWTASKSLIST));
             LI.classList.add("removed");
             setTimeout(() => {
