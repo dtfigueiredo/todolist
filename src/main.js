@@ -7,7 +7,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-var MAIN = {
+var main = {
     tasksList: [],
     //função que irá executar todas os outros métodos do objeto
     init: function () {
@@ -25,19 +25,20 @@ var MAIN = {
     },
     //função que é responsável por gerar as interações de eventos
     bindEvents: function () {
-        var SELF = this;
+        var _this = this;
+        var self = this;
         this.$checkButtons.forEach(function (button) {
-            button.addEventListener("click", SELF.Events.checkButtonClick);
+            button.addEventListener("click", _this.Events.checkButtonClick);
         });
-        this.$inputTask.addEventListener("keypress", SELF.Events.inputTaskEnter.bind(this));
+        this.$inputTask.addEventListener("keypress", self.Events.inputTaskEnter.bind(this));
         this.$removeButtons.forEach(function (button) {
-            button.addEventListener("click", SELF.Events.removeTaskClick.bind(SELF));
+            button.addEventListener("click", self.Events.removeTaskClick.bind(self));
         });
     },
     //função responsável por buscar os valores salvos no LocalStorage, a partir do "inputTaskEnter" linha 75
     getLocalStorage: function () {
-        var TASKSSTORAGED = localStorage.getItem("tasks");
-        this.tasksList = JSON.parse(TASKSSTORAGED);
+        var tasksStoraged = JSON.parse(localStorage.getItem("tasks"));
+        this.tasksList = tasksStoraged || [];
     },
     //função responsável por criar a lista de tarefas a partir dos dados inseridos no array 'tasksList' (linha 02),que foi gerado através do "getLocalStorage" linha 39
     buildTaskList: function () {
@@ -52,36 +53,38 @@ var MAIN = {
     //seção responsável por armazenar todas as funções de eventos isolados
     Events: {
         checkButtonClick: function (e) {
-            var LI = e.target.parentNode;
-            var ISDONE = LI.classList.contains("done");
+            var liElement = e.target.parentNode;
+            var isDone = liElement.classList.contains("done");
             //transforma o botão em toogle on-off pra classe 'done' => caso exista ele remove, caso não exista ele adiciona
-            ISDONE ? LI.classList.remove("done") : LI.classList.add("done");
+            isDone
+                ? liElement.classList.remove("done")
+                : liElement.classList.add("done");
         },
         inputTaskEnter: function (e) {
-            var KEY = e.key;
+            var inputKey = e.key;
             var input = e.target;
             var task = input.value;
-            if (KEY === "Enter" && task.length > 0) {
+            if (inputKey === "Enter" && (task === null || task === void 0 ? void 0 : task.length) > 0) {
                 this.$list.innerHTML += "\n            <li>\n              <div class=\"check\"></div>\n              <label for=\"\" class=\"task\">" + task + "</label>\n              <button class=\"btn-remove\" data-task=\"" + task + "\"><i class=\"fas fa-trash-alt\"></i></button>\n            </li>\n         ";
                 input.value = "";
                 this.domSelectors();
                 this.bindEvents();
-                var SAVEDTASKS = localStorage.getItem("tasks");
-                var SAVEDTASKSOBJ = JSON.parse(SAVEDTASKS);
-                var TASKOBJ = __spreadArray([{ taskName: task }], SAVEDTASKSOBJ, true);
-                localStorage.setItem("tasks", JSON.stringify(TASKOBJ));
+                var savedTasks = localStorage.getItem("tasks") || "{}";
+                var savedTasksObj = JSON.parse(savedTasks);
+                var taskObj = __spreadArray([{ taskName: task }], savedTasksObj, true);
+                localStorage.setItem("tasks", JSON.stringify(taskObj));
             }
         },
         removeTaskClick: function (e) {
-            var LI = e.target.parentElement.parentElement;
-            var TASKTOBEREMOVED = e.target.parentElement.dataset["task"];
-            var NEWTASKSLIST = this.tasksList.filter(function (item) { return item.taskName !== TASKTOBEREMOVED; });
-            localStorage.setItem("tasks", JSON.stringify(NEWTASKSLIST));
-            LI.classList.add("removed");
+            var liElement = e.target.parentElement.parentElement;
+            var taskToBeRemoved = e.target.parentElement.dataset["task"];
+            var newTasksList = this.tasksList.filter(function (item) { return item.taskName !== taskToBeRemoved; });
+            localStorage.setItem("tasks", JSON.stringify(newTasksList));
+            liElement.classList.add("removed");
             setTimeout(function () {
-                LI.classList.add("hidden");
+                liElement.classList.add("hidden");
             }, 500);
         },
     },
 };
-MAIN.init();
+main.init();

@@ -1,4 +1,8 @@
-const MAIN = {
+type task = {
+  taskName: string;
+};
+
+const main = {
   tasksList: [],
 
   //função que irá executar todas os outros métodos do objeto
@@ -19,27 +23,26 @@ const MAIN = {
 
   //função que é responsável por gerar as interações de eventos
   bindEvents: function () {
-    const SELF = this;
+    const self = this;
 
-    this.$checkButtons.forEach(function (button) {
-      button.addEventListener("click", SELF.Events.checkButtonClick);
+    this.$checkButtons.forEach((button) => {
+      button.addEventListener("click", this.Events.checkButtonClick);
     });
 
     this.$inputTask.addEventListener(
       "keypress",
-      SELF.Events.inputTaskEnter.bind(this)
+      self.Events.inputTaskEnter.bind(this)
     );
 
     this.$removeButtons.forEach(function (button) {
-      button.addEventListener("click", SELF.Events.removeTaskClick.bind(SELF));
+      button.addEventListener("click", self.Events.removeTaskClick.bind(self));
     });
   },
 
   //função responsável por buscar os valores salvos no LocalStorage, a partir do "inputTaskEnter" linha 75
   getLocalStorage: function () {
-    const TASKSSTORAGED = localStorage.getItem("tasks");
-
-    this.tasksList = JSON.parse(TASKSSTORAGED);
+    const tasksStoraged = JSON.parse(localStorage.getItem("tasks"));
+    this.tasksList = tasksStoraged || [];
   },
 
   //função responsável por criar a lista de tarefas a partir dos dados inseridos no array 'tasksList' (linha 02),que foi gerado através do "getLocalStorage" linha 39
@@ -65,19 +68,21 @@ const MAIN = {
   //seção responsável por armazenar todas as funções de eventos isolados
   Events: {
     checkButtonClick: function (e) {
-      const LI = e.target.parentNode;
-      const ISDONE = LI.classList.contains("done");
+      const liElement = e.target.parentNode;
+      const isDone = liElement.classList.contains("done");
 
       //transforma o botão em toogle on-off pra classe 'done' => caso exista ele remove, caso não exista ele adiciona
-      ISDONE ? LI.classList.remove("done") : LI.classList.add("done");
+      isDone
+        ? liElement.classList.remove("done")
+        : liElement.classList.add("done");
     },
 
     inputTaskEnter: function (e) {
-      const KEY = e.key;
+      const inputKey = e.key;
       let input = e.target;
       let task = input.value;
 
-      if (KEY === "Enter" && task.length > 0) {
+      if (inputKey === "Enter" && task?.length > 0) {
         this.$list.innerHTML += `
             <li>
               <div class="check"></div>
@@ -91,31 +96,31 @@ const MAIN = {
         this.domSelectors();
         this.bindEvents();
 
-        const SAVEDTASKS = localStorage.getItem("tasks");
-        const SAVEDTASKSOBJ = JSON.parse(SAVEDTASKS);
+        const savedTasks = localStorage.getItem("tasks") || "{}";
+        const savedTasksObj = JSON.parse(savedTasks);
 
-        const TASKOBJ = [{ taskName: task }, ...SAVEDTASKSOBJ];
-        localStorage.setItem("tasks", JSON.stringify(TASKOBJ));
+        const taskObj: task[] = [{ taskName: task }, ...savedTasksObj];
+        localStorage.setItem("tasks", JSON.stringify(taskObj));
       }
     },
 
     removeTaskClick: function (e) {
-      const LI = e.target.parentElement.parentElement;
-      const TASKTOBEREMOVED = e.target.parentElement.dataset["task"];
+      const liElement = e.target.parentElement.parentElement;
+      const taskToBeRemoved = e.target.parentElement.dataset["task"];
 
-      const NEWTASKSLIST = this.tasksList.filter(
-        (item) => item.taskName !== TASKTOBEREMOVED
+      const newTasksList = this.tasksList.filter(
+        (item: task) => item.taskName !== taskToBeRemoved
       );
 
-      localStorage.setItem("tasks", JSON.stringify(NEWTASKSLIST));
+      localStorage.setItem("tasks", JSON.stringify(newTasksList));
 
-      LI.classList.add("removed");
+      liElement.classList.add("removed");
 
       setTimeout(() => {
-        LI.classList.add("hidden");
+        liElement.classList.add("hidden");
       }, 500);
     },
   },
 };
 
-MAIN.init();
+main.init();
