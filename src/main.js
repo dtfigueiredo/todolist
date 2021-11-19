@@ -20,6 +20,7 @@ var main = {
     domSelectors: function () {
         this.$checkButtons = document.querySelectorAll(".check"); //(cria-se um array de tags)
         this.$inputTask = document.querySelector("#inputTask");
+        this.$btnSubmit = document.querySelector("#btn-submit");
         this.$list = document.querySelector("#list");
         this.$removeButtons = document.querySelectorAll(".btn-remove"); //(cria-se um array de tags)
     },
@@ -31,6 +32,7 @@ var main = {
             button.addEventListener("click", _this.Events.checkButtonClick);
         });
         this.$inputTask.addEventListener("keypress", self.Events.inputTaskEnter.bind(this));
+        this.$btnSubmit.addEventListener("click", self.Events.inputTaskClick.bind(this));
         this.$removeButtons.forEach(function (button) {
             button.addEventListener("click", self.Events.removeTaskClick.bind(self));
         });
@@ -40,11 +42,15 @@ var main = {
         var tasksStoraged = JSON.parse(localStorage.getItem("tasks"));
         this.tasksList = tasksStoraged || [];
     },
+    buildHtmlLi: function (inputedTask) {
+        return "\n          <li>\n            <div class=\"check\"></div>\n            <label for=\"\" class=\"task\">" + inputedTask + "</label>\n            <button class=\"btn-remove\" data-task=\"" + inputedTask + "\"><i class=\"fas fa-trash-alt\"></i></button>\n          </li>\n       ";
+    },
     //função responsável por criar a lista de tarefas a partir dos dados inseridos no array 'tasksList' (linha 02),que foi gerado através do "getLocalStorage" linha 39
     buildTaskList: function () {
+        var _this = this;
         var html = "";
         this.tasksList.forEach(function (listItem) {
-            html += "\n        <li>\n          <div class=\"check\"></div>\n          <label for=\"\" class=\"task\">" + listItem.taskName + "</label>\n          <button class=\"btn-remove\" data-task=\"" + listItem.taskName + "\"><i class=\"fas fa-trash-alt\"></i></button>\n        </li>\n       ";
+            html += _this.buildHtmlLi(listItem.taskName);
         });
         this.$list.innerHTML = html;
         this.domSelectors();
@@ -65,7 +71,23 @@ var main = {
             var input = e.target;
             var task = input.value;
             if (inputKey === "Enter" && (task === null || task === void 0 ? void 0 : task.length) > 0) {
-                this.$list.innerHTML += "\n            <li>\n              <div class=\"check\"></div>\n              <label for=\"\" class=\"task\">" + task + "</label>\n              <button class=\"btn-remove\" data-task=\"" + task + "\"><i class=\"fas fa-trash-alt\"></i></button>\n            </li>\n         ";
+                this.buildHtmlLi(task);
+                location.reload();
+                input.value = "";
+                this.domSelectors();
+                this.bindEvents();
+                var savedTasks = localStorage.getItem("tasks") || "{}";
+                var savedTasksObj = JSON.parse(savedTasks);
+                var taskObj = __spreadArray([{ taskName: task }], savedTasksObj, true);
+                localStorage.setItem("tasks", JSON.stringify(taskObj));
+            }
+        },
+        inputTaskClick: function (e) {
+            var input = e.target.previousElementSibling;
+            var task = input.value;
+            if ((task === null || task === void 0 ? void 0 : task.length) > 0) {
+                this.buildHtmlLi(task);
+                location.reload();
                 input.value = "";
                 this.domSelectors();
                 this.bindEvents();

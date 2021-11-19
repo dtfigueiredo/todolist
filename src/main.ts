@@ -17,6 +17,7 @@ const main = {
   domSelectors: function () {
     this.$checkButtons = document.querySelectorAll(".check"); //(cria-se um array de tags)
     this.$inputTask = document.querySelector("#inputTask");
+    this.$btnSubmit = document.querySelector("#btn-submit");
     this.$list = document.querySelector("#list");
     this.$removeButtons = document.querySelectorAll(".btn-remove"); //(cria-se um array de tags)
   },
@@ -34,6 +35,11 @@ const main = {
       self.Events.inputTaskEnter.bind(this)
     );
 
+    this.$btnSubmit.addEventListener(
+      "click",
+      self.Events.inputTaskClick.bind(this)
+    );
+
     this.$removeButtons.forEach(function (button) {
       button.addEventListener("click", self.Events.removeTaskClick.bind(self));
     });
@@ -45,18 +51,22 @@ const main = {
     this.tasksList = tasksStoraged || [];
   },
 
+  buildHtmlLi: function (inputedTask) {
+    return `
+          <li>
+            <div class="check"></div>
+            <label for="" class="task">${inputedTask}</label>
+            <button class="btn-remove" data-task="${inputedTask}"><i class="fas fa-trash-alt"></i></button>
+          </li>
+       `;
+  },
+
   //função responsável por criar a lista de tarefas a partir dos dados inseridos no array 'tasksList' (linha 02),que foi gerado através do "getLocalStorage" linha 39
   buildTaskList: function () {
     let html = "";
 
     this.tasksList.forEach((listItem) => {
-      html += `
-        <li>
-          <div class="check"></div>
-          <label for="" class="task">${listItem.taskName}</label>
-          <button class="btn-remove" data-task="${listItem.taskName}"><i class="fas fa-trash-alt"></i></button>
-        </li>
-       `;
+      html += this.buildHtmlLi(listItem.taskName);
     });
 
     this.$list.innerHTML = html;
@@ -83,14 +93,28 @@ const main = {
       let task = input.value;
 
       if (inputKey === "Enter" && task?.length > 0) {
-        this.$list.innerHTML += `
-            <li>
-              <div class="check"></div>
-              <label for="" class="task">${task}</label>
-              <button class="btn-remove" data-task="${task}"><i class="fas fa-trash-alt"></i></button>
-            </li>
-         `;
+        this.buildHtmlLi(task);
+        location.reload();
+        input.value = "";
 
+        this.domSelectors();
+        this.bindEvents();
+
+        const savedTasks = localStorage.getItem("tasks") || "{}";
+        const savedTasksObj = JSON.parse(savedTasks);
+
+        const taskObj: task[] = [{ taskName: task }, ...savedTasksObj];
+        localStorage.setItem("tasks", JSON.stringify(taskObj));
+      }
+    },
+
+    inputTaskClick: function (e) {
+      let input = e.target.previousElementSibling;
+      let task = input.value;
+
+      if (task?.length > 0) {
+        this.buildHtmlLi(task);
+        location.reload();
         input.value = "";
 
         this.domSelectors();
