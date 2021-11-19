@@ -22,6 +22,11 @@ body {
   font-weight: 700;
   text-align: center;
 }
+@media screen and (max-width: 425px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+}
 
 .container {
   max-width: 700px;
@@ -98,6 +103,25 @@ body {
 .wrapper-list .input-box .input-wrapper button:hover {
   cursor: pointer;
   background-color: #334481;
+}
+@media screen and (max-width: 650px) {
+  .wrapper-list .input-box .input-wrapper input {
+    width: 75%;
+  }
+  .wrapper-list .input-box .input-wrapper input::-moz-placeholder {
+    font-size: 0.75rem;
+  }
+  .wrapper-list .input-box .input-wrapper input:-ms-input-placeholder {
+    font-size: 0.75rem;
+  }
+  .wrapper-list .input-box .input-wrapper input::placeholder {
+    font-size: 0.75rem;
+  }
+  .wrapper-list .input-box .input-wrapper button {
+    width: 23%;
+    padding: 1rem 0.5rem;
+    font-size: 0.85rem;
+  }
 }
 .wrapper-list .list {
   width: 100%;
@@ -189,6 +213,12 @@ body {
 .wrapper-list .list .btn-remove:hover {
   cursor: pointer;
   color: #fce5cd;
+}
+@media screen and (max-width: 767px) {
+  .wrapper-list {
+    width: 95%;
+    margin: 0 auto;
+  }
 }
 
 @-webkit-keyframes collapseLi {

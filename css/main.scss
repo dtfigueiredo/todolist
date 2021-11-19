@@ -12,6 +12,10 @@
     font-size: 3rem;
     font-weight: 700;
     text-align: center;
+
+    @media screen and (max-width: 425px) {
+      font-size: 2rem;
+    }
   }
 }
 
@@ -85,7 +89,7 @@
       button {
         width: 14%;
         padding: 1rem;
-        
+
         font-size: 1rem;
 
         border: 1px solid transparent;
@@ -102,6 +106,22 @@
         &:hover {
           cursor: pointer;
           background-color: $color-li-hover;
+        }
+      }
+
+      @media screen and (max-width: 650px) {
+        input {
+          width: 75%;
+
+          &::placeholder {
+            font-size: 0.75rem;
+          }
+        }
+
+        button {
+          width: 23%;
+          padding: 1rem 0.5rem;
+          font-size: 0.85rem;
         }
       }
     }
@@ -216,6 +236,11 @@
         color: $color-yellow;
       }
     }
+  }
+
+  @media screen and (max-width: 767px) {
+    width: 95%;
+    margin: 0 auto;
   }
 }
 
